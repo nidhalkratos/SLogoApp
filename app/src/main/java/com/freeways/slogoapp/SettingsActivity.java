@@ -13,6 +13,8 @@ import android.widget.EditText;
 public class SettingsActivity extends AppCompatActivity {
 
     EditText editTextSettings;
+    SharedPreferences sharedPref ;
+    SharedPreferences.Editor editor ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,10 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         editTextSettings = (EditText) findViewById(R.id.settings_edit_text);
+        sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+        editTextSettings.setText(sharedPref.getString("serverAddress",""));
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -28,9 +34,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String serverAddress = editTextSettings.getText().toString();
 
-                SharedPreferences sharedPref = getSharedPreferences(
-                        "settings", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("serverAddress",serverAddress);
                 editor.commit();
 
